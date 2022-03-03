@@ -10,7 +10,6 @@ All these steps are summarization of the official Kafka documentation that you c
   ```
   This will create `ca-cert` and `ca-key` files which we will use at further steps.
   <br/><br/>
-  <br></br>
 
 - **Generate SSL key and certificate for each Kafka broker**
  First we need to create a truststore using `java keytool` and we need to import our `ca-cert` into it.
@@ -28,24 +27,19 @@ All these steps are summarization of the official Kafka documentation that you c
     ```
     ssl.endpoint.identification.algorithm=
     ```
-    <br></br>
 
     Now, let's create our certificate signing request and sign it.
   ```bash
   keytool -keystore kafka.broker0.keystore.jks -alias broker0 -certreq -file ca-request-broker0
   openssl x509 -req -CA ca-cert -CAkey ca-key -in ca-request-broker0 -out ca-signed-broker0 -days 9999 -CAcreateserial
   ```
-  
-  <br></br>
-
-    For the last step, import the signed certificate and CA into keystore.
+  For the last step, import the signed certificate and CA into keystore.
     ```bash
     keytool -keystore kafka.consumer.keystore.jks -alias ca-cert -import -file ca-cert
     keytool -keystore kafka.consumer.keystore.jks -alias consumer -import -file ca-signed-consumer
     ```
+  <br></br>
 
-  <br></br>
-  <br></br>
 - **Configuring Kafka Brokers**
   - Inside the `server.properties` file we need to add following configurations.
     ```
@@ -64,7 +58,6 @@ All these steps are summarization of the official Kafka documentation that you c
     ```
     
     And run the broker with the `server.properties` configuration.
-    <br></br>
     <br></br>
   
 - **Configuring Kafka Clients** 
